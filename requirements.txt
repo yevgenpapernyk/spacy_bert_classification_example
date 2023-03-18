@@ -7,3 +7,7 @@ spacy[cuda-autodetect,transformers,lookups]
 # install datasets lib (huggingface)
 datasets
 
+# deployment
+fastapi
+uvicorn
+
