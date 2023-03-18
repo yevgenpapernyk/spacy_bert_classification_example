@@ -127,3 +127,12 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Project specific
+output/
+temp/
+train.spacy
+dev.spacy
+valid.spacy
+test.spacy
+
