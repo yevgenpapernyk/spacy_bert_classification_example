@@ -129,10 +129,8 @@ dmypy.json
 .pyre/
 
 # Project specific
+corpus/
+compose/
 output/
 temp/
-train.spacy
-dev.spacy
-valid.spacy
-test.spacy
 
