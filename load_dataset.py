@@ -7,9 +7,13 @@ from sklearn.model_selection import train_test_split
 
 class DataLoader:
     def __init__(self, language):
-        self._train_p = Path() / 'train.spacy'
-        self._dev_p = Path() / 'dev.spacy'
-        self._test_p = Path() / 'test.spacy'
+        # paths
+        corpus_dir = Path() / 'corpus'
+        self._train_p = corpus_dir / 'train.spacy'
+        self._dev_p = corpus_dir / 'dev.spacy'
+        self._test_p = corpus_dir / 'test.spacy'
+ 
+        # spacy
         self._nlp = spacy.blank(language)
 
     def load(self, dataset_name):
