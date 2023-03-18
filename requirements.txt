@@ -1,0 +1,9 @@
+# sklearn for train_test_split()
+scikit-learn
+
+# spacy library with cuda support; also install transformers lib (huggingface)
+spacy[cuda-autodetect,transformers,lookups]
+
+# install datasets lib (huggingface)
+datasets
+
