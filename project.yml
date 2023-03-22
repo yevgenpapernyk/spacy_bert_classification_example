@@ -4,7 +4,7 @@ description: "This project's aim is to show how to finetune and use a BERT model
 directories: ["config", "corpus", "metrics", "models"]
 
 vars:
-  gpu_option: "--gpu-id 0"  # replace with "--gpu-id 0" to use GPU
+  gpu_option: ""  # replace with "--gpu-id 0" to use GPU
 
 workflows:
   train_and_eval:
