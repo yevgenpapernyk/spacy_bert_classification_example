@@ -1,0 +1,32 @@
+FROM nvidia/cuda:11.7.1-cudnn8-runtime-ubuntu22.04
+
+# set timezone
+ENV TZ="Europe/Berlin"
+
+# set working directory
+WORKDIR /app
+
+# install python, pip, etc.
+RUN apt-get update
+RUN apt-get install -y python3.10 python3-pip
+
+# install requirements
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# models volume
+RUN mkdir models
+VOLUME /app/models
+
+# create user
+ARG username=api
+RUN useradd -s /bin/bash -m $username
+
+# copy api
+COPY scripts/api.py .
+
+# set user
+USER $username
+
+ENTRYPOINT python3 -m uvicorn api:app --host 0.0.0.0
+

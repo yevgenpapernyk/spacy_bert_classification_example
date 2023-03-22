@@ -1,0 +1,27 @@
+services:
+
+  api:
+    build:
+      context: .
+      dockerfile: ../Dockerfile_gpu
+    restart: unless-stopped
+    volumes:
+      - ./models/model-best:/app/model:ro
+    environment:
+      - FASTAPI_ROOT_PATH=/bert-api/
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+
+  proxy:
+    image: nginx
+    restart: unless-stopped
+    depends_on:
+      - api
+    volumes:
+      - ./compose/proxy/nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 80:80
+
