@@ -26,7 +26,9 @@ additionally:
 
 1. Clone repository from GitHub `git clone git@github.com:yevgenpapernyk/spacy_bert_classification_example.git`
 1. Optional: Update pip, setuptools and wheel `pip install -U pip setuptools wheel`
-1. Install requirements `pip install -Ur requirements.txt`
+1. Install requirements 
+    - using CPU: `pip install -Ur requirements.txt`
+    - using GPU: `pip install -Ur requirements_gpu.txt`
 
 ## Run
 ### Load dataset, train and evaluate
@@ -50,7 +52,9 @@ Please check the "Prerequisites" section to make sure everything is done properl
 1. Create project directory and go inside `mkdir spacy_bert_example && cd spacy_bert_example`
 1. Create virtual environment and activate it `python3 -m venv venv && source venv/bin/activate`. Works on Linux and Mac. Has to be done slightly different on Windows.
 1. Optional: Update pip, setuptools and wheel `pip install -U pip setuptools wheel`
-1. Install requirements `pip install -U spacy[cuda-autodetect,transformers,lookups]` (more possiblities at https://spacy.io/usage).
+1. Install requirements (more possiblities at https://spacy.io/usage):
+    - using CPU: `pip install -U spacy[transformers,lookups]`
+    - using GPU: `pip install -U spacy[cuda-autodetect,transformers,lookups]`
 1. Go to https://spacy.io/usage/training#quickstart
 1. Select
     - Language: German  *(alternatively: Multi-language --> more flexible, but lower score)*

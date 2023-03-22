@@ -2,7 +2,7 @@
 scikit-learn
 
 # spacy library with cuda support; also install transformers lib (huggingface)
-spacy[transformers,lookups]
+spacy[cuda-autodetect,transformers,lookups]
 
 # install datasets lib (huggingface)
 datasets
