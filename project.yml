@@ -12,7 +12,7 @@ workflows:
     - train
     - evaluate_train
     - evaluate_dev
-    #- evaluate_test TODO
+    - evaluate_test
 
 commands:
   - name: load
@@ -49,7 +49,7 @@ commands:
   - name: evaluate_train
     help: "Evaluate classification on the test data and save the metrics"
     script:
-      - python -m spacy evaluate ./models/model-best ./corpus/train.spacy --output ./metrics/train.json ${vars.gpu_option}
+      - python -m spacy evaluate ./models/model-best ./corpus/train.spacy --output ./metrics/train.json
     deps:
       - "models/model-best"
       - "corpus/train.spacy"
@@ -59,7 +59,7 @@ commands:
   - name: evaluate_dev
     help: "Evaluate classification on the test data and save the metrics"
     script:
-      - python -m spacy evaluate ./models/model-best ./corpus/dev.spacy --output ./metrics/dev.json ${vars.gpu_option}
+      - python -m spacy evaluate ./models/model-best ./corpus/dev.spacy --output ./metrics/dev.json
     deps:
       - "models/model-best"
       - "corpus/dev.spacy"
@@ -69,7 +69,7 @@ commands:
   - name: evaluate_test
     help: "Evaluate classification on the test data and save the metrics"
     script:
-      - python -m spacy evaluate ./models/model-best ./corpus/test.spacy --output ./metrics/test.json ${vars.gpu_option}
+      - python -m spacy evaluate ./models/model-best ./corpus/test.spacy --output ./metrics/test.json
     deps:
       - "models/model-best"
       - "corpus/test.spacy"
