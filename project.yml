@@ -83,16 +83,6 @@ commands:
     deps:
       - "models/model-best"
 
-  - name: deploy_docker
-    help: "Deploy using docker compose"
-    script: 
-      - docker compose down
-      - docker compose up -d
-    deps:
-      - "models/model-best"
-      - "docker-compose.yml"
-      - "compose"
-
   - name: clean
     help: "Remove intermediate files"
     script:
