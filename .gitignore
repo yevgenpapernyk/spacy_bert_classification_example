@@ -131,7 +131,6 @@ dmypy.json
 # Project specific
 .temp/
 corpus/
-compose/
 models/
 temp/
 project.lock
