@@ -13,12 +13,14 @@ additionally:
 1. NVIDIA GPU with >= 6 GB of VRAM (ideally >=12 GB)
 1. Installed NVIDIA GPU driver
 
-### Using GPU over Docker
+### Using GPU with Docker
 Attention: 
-Using GPU over Docker is already a very sophisticated deployment. It requires you to ackquire some knowledge in this area.
+Using GPU with Docker is already a very sophisticated deployment. It requires you to acquire some knowledge in this area.
 
 additionally:
-1. Installed `nvidia-container-runtime` package (https://github.com/NVIDIA/nvidia-container-runtime#installation)
+1. Installed `nvidia-container-toolkit`
+  - https://gitlab.com/nvidia/container-toolkit/container-toolkit/
+  - https://gitlab.com/nvidia/container-toolkit/container-toolkit/-/tree/main/cmd/nvidia-container-runtime
 
 ## Installation
 
@@ -31,6 +33,17 @@ additionally:
 1. `source venv/bin/activate` to activate virtual environment
 1. Update var `gpu_option` to `"--gpu-id 0"` in `project.yml` if you do not want to use a GPU
 1. `python -m spacy project run train_and_eval` 
+
+### Deploy after training
+#### Local deployment without Docker
+`python -m spacy project run deploy_local`
+
+#### Deploy with docker (without GPU)
+`docker compose up -d`
+
+#### Deploy with docker and GPU
+Please check the "Prerequisites" section to make sure everything is done properly to run a docker container with GPU support.
+`docker compose -f docker-compose.gpu.yml up -d`
 
 ## How a similar project can be created
 
