@@ -1,0 +1,102 @@
+title: "BERT text classification example"
+description: "This project's aim is to show how to finetune and use a BERT model using spacy. Please remove '--gpu-id 0' if you dont't want to or can't use a GPU."
+
+directories: ["config", "corpus", "metrics", "models"]
+
+vars:
+  gpu_option: "--gpu-id 0"  # replace with "--gpu-id 0" to use GPU
+
+workflows:
+  train_and_eval:
+    - load
+    - train
+    - evaluate_train
+    - evaluate_dev
+    #- evaluate_test TODO
+
+commands:
+  - name: load
+    help: "Load labeled dataset from huggingface and store to *.spacy files"
+    script:
+      - python scripts/load_data.py
+    deps:
+      - 'scripts/load_data.py'
+    outputs:
+      - 'corpus/train.spacy'
+      - 'corpus/dev.spacy'
+      - 'corpus/test.spacy'
+
+  - name: debug_data
+    help: "spacy debug data: check if data is ok"
+    script:
+      - python -m spacy debug data config/config.cfg --paths.train corpus/train.spacy --paths.dev corpus/dev.spacy
+    deps:
+      - "config/config.cfg"
+      - "corpus/train.spacy"
+      - "corpus/dev.spacy"
+
+  - name: train
+    help: "Train using train corpus"
+    script:
+      - python -m spacy train config/config.cfg --paths.train corpus/train.spacy --paths.dev corpus/dev.spacy --output models ${vars.gpu_option}
+    deps:
+      - "config/config.cfg"
+      - "corpus/train.spacy"
+      - "corpus/dev.spacy"
+    outputs:
+      - "models/model-best"
+
+  - name: evaluate_train
+    help: "Evaluate classification on the test data and save the metrics"
+    script:
+      - python -m spacy evaluate ./models/model-best ./corpus/train.spacy --output ./metrics/train.json ${vars.gpu_option}
+    deps:
+      - "models/model-best"
+      - "corpus/train.spacy"
+    outputs:
+      - "metrics/train.json"
+
+  - name: evaluate_dev
+    help: "Evaluate classification on the test data and save the metrics"
+    script:
+      - python -m spacy evaluate ./models/model-best ./corpus/dev.spacy --output ./metrics/dev.json ${vars.gpu_option}
+    deps:
+      - "models/model-best"
+      - "corpus/dev.spacy"
+    outputs:
+      - "metrics/dev.json"
+
+  - name: evaluate_test
+    help: "Evaluate classification on the test data and save the metrics"
+    script:
+      - python -m spacy evaluate ./models/model-best ./corpus/test.spacy --output ./metrics/test.json ${vars.gpu_option}
+    deps:
+      - "models/model-best"
+      - "corpus/test.spacy"
+    outputs:
+      - "metrics/test.json"
+
+  - name: deploy_local
+    help: "Deploy directly using uvicorn"
+    script:
+      - python -m uvicorn scripts.api:app --reload --host 127.0.0.1 --port 8000
+    deps:
+      - "models/model-best"
+
+  - name: deploy_docker
+    help: "Deploy using docker compose"
+    script: 
+      - docker compose down
+      - docker compose up -d
+    deps:
+      - "models/model-best"
+      - "docker-compose.yml"
+      - "compose"
+
+  - name: clean
+    help: "Remove intermediate files"
+    script:
+     - "rm -rf corpus/*"
+     - "rm -rf metrics/*"
+     - "rm -rf models/*"
+
