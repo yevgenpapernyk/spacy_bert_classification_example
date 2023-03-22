@@ -23,16 +23,22 @@ class DataLoader:
         print(f'  └─> Loading "{dataset_name}" from huggingface datasets')
         dataset = load_dataset(dataset_name)
 
-        # split
-        train_data = dataset['train']
+        # shuffle and split train and dev data
+        temp_data = dataset['train'].shuffle(seed=42)
+        dev_frac = 0.1
+        n_train_samples = int(dev_frac * temp_data.num_rows)
+        dev_data = temp_data.select(range(n_train_samples))
+        train_data = temp_data.select(range(n_train_samples, temp_data.num_rows))
+
+        # get test data
         test_data = dataset['test']
 
         # write to spacy docs
         #classes = self._find_all_classes(train_data)
         print(f'  └─> Found classes: {train_data.features["label"].names}')
         self._convert_and_store_docs(train_data, self._train_p)
-        self._convert_and_store_docs(test_data, self._dev_p)
-        # TODO: use test and dev sets correctly
+        self._convert_and_store_docs(dev_data, self._dev_p)
+        self._convert_and_store_docs(test_data, self._test_p)
         
         print(f'  └─> finished!')
 
