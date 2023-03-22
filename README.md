@@ -19,8 +19,8 @@ Using GPU with Docker is already a very sophisticated deployment. It requires yo
 
 additionally:
 1. Installed `nvidia-container-toolkit`
-  - https://gitlab.com/nvidia/container-toolkit/container-toolkit/
-  - https://gitlab.com/nvidia/container-toolkit/container-toolkit/-/tree/main/cmd/nvidia-container-runtime
+    - https://gitlab.com/nvidia/container-toolkit/container-toolkit/
+    - https://gitlab.com/nvidia/container-toolkit/container-toolkit/-/tree/main/cmd/nvidia-container-runtime
 
 ## Installation
 
@@ -31,7 +31,7 @@ additionally:
 ## Run
 ### Load dataset, train and evaluate
 1. `source venv/bin/activate` to activate virtual environment
-1. Update var `gpu_option` to `"--gpu-id 0"` in `project.yml` if you do not want to use a GPU
+1. Update var `gpu_option` to `"--gpu-id 0"` in `project.yml` if you want to use a GPU
 1. `python -m spacy project run train_and_eval` 
 
 ### Deploy after training
@@ -53,11 +53,11 @@ Please check the "Prerequisites" section to make sure everything is done properl
 1. Install requirements `pip install -U spacy[cuda-autodetect,transformers,lookups]` (more possiblities at https://spacy.io/usage).
 1. Go to https://spacy.io/usage/training#quickstart
 1. Select
-  - Language: German  *(alternatively: Multi-language --> more flexible, but lower score)*
-  - Components: textcat  *(text classification)*
-  - Text Classification: exclusive categories  *(if only one category is valid - eclusive label classification; multi-label clasification is used otherwise)*
-  - Hardware: GPU (transformer)  *(not using BERT otherwise)*
-  - Optimize for: efficiency  *(efficiency ist faster then accuracy, but it results in lower score)*
+    - Language: German  *(alternatively: Multi-language --> more flexible, but lower score)*
+    - Components: textcat  *(text classification)*
+    - Text Classification: exclusive categories  *(if only one category is valid - eclusive label classification; multi-label clasification is used otherwise)*
+    - Hardware: GPU (transformer)  *(not using BERT otherwise)*
+    - Optimize for: efficiency  *(efficiency ist faster then accuracy, but it results in lower score)*
 1. Click on copy button at the button of the config area
 1. Create `config` directory
 1. Create `config/base_config.cfg` file and paste the config into it
