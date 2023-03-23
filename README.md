@@ -24,7 +24,7 @@ additionally:
 
 ## Installation
 
-1. Clone repository from GitHub `git clone git@github.com:yevgenpapernyk/spacy_bert_classification_example.git`
+1. Clone repository from GitHub `git clone https://github.com/yevgenpapernyk/spacy_bert_classification_example.git`
 1. Optional: Update pip, setuptools and wheel `pip install -U pip setuptools wheel`
 1. Install requirements 
     - using CPU: `pip install -Ur requirements.txt`
