@@ -47,7 +47,7 @@ additionally:
 Please check the "Prerequisites" section to make sure everything is done properly to run a docker container with GPU support.
 `docker compose -f docker-compose.gpu.yml up -d`
 
-Watch logs with `docker compose -f docker-compose.gpu.yml logs -f` to macke sure that the api uses the GPU.
+Watch logs with `docker compose -f docker-compose.gpu.yml logs -f` to make sure that the api uses the GPU.
 
 ## Directory structure
 ### Repository
