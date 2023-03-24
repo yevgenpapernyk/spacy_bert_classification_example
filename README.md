@@ -49,6 +49,12 @@ Please check the "Prerequisites" section to make sure everything is done properl
 
 Watch logs with `docker compose -f docker-compose.gpu.yml logs -f` to make sure that the api uses the GPU.
 
+## Use
+After deploying the api using one described possibilities you can acess it by using on of the following urls in your browser:
+- `http://localhost/bert-api/docs`: Swagger docs. You can also acess the different methods using the Swagger GUI.
+- `http://localhost/bert-api/`: Get basic information about the deploment.
+- `http://localhost/bert-api/classify-text?text=Some%20Text`: Classify a to one of the specified categories text using BERT. This is the essence of the whole project :)
+
 ## Directory structure
 ### Repository
 - `project.yml`: A spaCy project file. It plays a central role in holding everthing together (non docker things). More info: https://spacy.io/usage/projects/
