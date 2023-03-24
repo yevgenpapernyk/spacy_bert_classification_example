@@ -22,7 +22,7 @@ additionally:
     - https://gitlab.com/nvidia/container-toolkit/container-toolkit/
     - https://gitlab.com/nvidia/container-toolkit/container-toolkit/-/tree/main/cmd/nvidia-container-runtime
 
-## Installation
+## Installation for training and local deployment
 
 1. Clone repository from GitHub `git clone https://github.com/yevgenpapernyk/spacy_bert_classification_example.git`
 1. Optional: Update pip, setuptools and wheel `pip install -U pip setuptools wheel`
@@ -34,11 +34,11 @@ additionally:
 ### Load dataset, train and evaluate
 1. `source venv/bin/activate` to activate virtual environment
 1. Update var `gpu_option` to `"--gpu-id 0"` in `project.yml` if you want to use a GPU
-1. `python -m spacy project run train_and_eval` 
+1. `spacy project run train_and_eval` 
 
 ### Deploy after training
 #### Local deployment without Docker
-`python -m spacy project run deploy_local`
+`spacy project run deploy_local`
 
 #### Deploy with docker (without GPU)
 `docker compose up -d`
@@ -46,6 +46,35 @@ additionally:
 #### Deploy with docker and GPU
 Please check the "Prerequisites" section to make sure everything is done properly to run a docker container with GPU support.
 `docker compose -f docker-compose.gpu.yml up -d`
+
+Watch logs with `docker compose -f docker-compose.gpu.yml logs -f` to macke sure that the api uses the GPU.
+
+## Directory structure
+### Repository
+- `project.yml`: A spaCy project file. It plays a central role in holding everthing together (non docker things). More info: https://spacy.io/usage/projects/
+- `scripts/`: Scripts used by `project.yml`
+    - `api.py`: FastAPI that uses the model and generates Swagger docs. Used by `project.yml` and by `Dockerfile`s
+    - `load_data.py`: Used by `project.yml` to load, split and convert the data to `*.spacy` files.
+- `config/`: 
+    - `config.cfg`: Describes the training settings. 
+    - `base_config.cfg`: The only purpose is to be basis for generating `config.cfg`. It is not used for further tasks.
+- requirements
+    - `requirements.txt`: Used to install python libs if no NVIDIA GPU is used.
+    - `requirements_gpu.txt`: Used to install python libs if a NVIDIA GPU is used.
+- `docker/`: Dockerfiles and nginx config
+
+### Generated during the run of the spaCy project workflow
+- `corpus/`: Loaded data
+    - `train.spacy`: Training data. Directly used to train the model.
+    - `dev.spacy`: Development data. Used to check model performance during the training to determine the best model and store to `model-best`.
+    - `test.spacy`: Test data. A hould out set. Used to calculate the test score to determine how the model could perform in production.
+- `models/`:
+    - `model-best`: Best model of the last training run. Has the best score and should perform best.
+    - `model-last`: Last model of the last training run. Just the last deep learning epoch. Should perform worse than `model-best`.
+- `metrics/`: Evaluated metrics / scores of the `model-best`
+    - `train.json`: Metrics using `train.spacy` data.
+    - `dev.json`: Metrics using `dev.spacy` data.
+    - `test.json`: Metrics using `test.spacy` data.
 
 ## How a similar project can be created
 
@@ -57,14 +86,14 @@ Please check the "Prerequisites" section to make sure everything is done properl
     - using GPU: `pip install -U spacy[cuda-autodetect,transformers,lookups]`
 1. Go to https://spacy.io/usage/training#quickstart
 1. Select
-    - Language: German  *(alternatively: Multi-language --> more flexible, but lower score)*
-    - Components: textcat  *(text classification)*
-    - Text Classification: exclusive categories  *(if only one category is valid - eclusive label classification; multi-label clasification is used otherwise)*
-    - Hardware: GPU (transformer)  *(not using BERT otherwise)*
-    - Optimize for: efficiency  *(efficiency ist faster then accuracy, but it results in lower score)*
+    - **Language**: German  *(alternatively: Multi-language --> more flexible, but lower score)*
+    - **Components**: textcat  *(text classification)*
+    - **Text Classification**: exclusive categories  *(if only one category is valid - eclusive label classification; multi-label clasification is used otherwise)*
+    - **Hardware**: GPU (transformer)  *(not using BERT otherwise)*
+    - **Optimize for**: efficiency  *(efficiency ist faster then accuracy, but it results in lower score)*
 1. Click on copy button at the button of the config area
 1. Create `config` directory
 1. Create `config/base_config.cfg` file and paste the config into it
-1. Run `python -m spacy init fill-config config/base_config.cfg config.cfg` to create the final verbose config which is then use by spaCy for training
+1. Run `spacy init fill-config config/base_config.cfg config.cfg` to create the final verbose config which is then use by spaCy for training
 1. Create a spacy `project.yml` file similar to that one in this repository
 
