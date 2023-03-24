@@ -3,7 +3,7 @@ services:
   api:
     build:
       context: .
-      dockerfile: ../Dockerfile_gpu
+      dockerfile: ./docker/Dockerfile_gpu
     restart: unless-stopped
     volumes:
       - ./models/model-best:/app/model:ro
@@ -21,7 +21,7 @@ services:
     depends_on:
       - api
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./docker/nginx.conf:/etc/nginx/nginx.conf:ro
     ports:
       - 80:80
 
