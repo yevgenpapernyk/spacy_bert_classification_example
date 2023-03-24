@@ -23,7 +23,6 @@ additionally:
     - https://gitlab.com/nvidia/container-toolkit/container-toolkit/-/tree/main/cmd/nvidia-container-runtime
 
 ## Installation for training and local deployment
-
 1. Clone repository from GitHub `git clone https://github.com/yevgenpapernyk/spacy_bert_classification_example.git`
 1. Optional: Update pip, setuptools and wheel `pip install -U pip setuptools wheel`
 1. Install requirements 
@@ -35,6 +34,18 @@ additionally:
 1. `source venv/bin/activate` to activate virtual environment
 1. Update var `gpu_option` to `"--gpu-id 0"` in `project.yml` if you want to use a GPU
 1. `spacy project run train_and_eval` 
+
+### Select other model
+By default `bert-base-german-cased` model is used. It is defined in the `config/config.cfg` file. The exact line is:
+```
+name = "bert-base-german-cased"
+```
+
+You can change if you want. E.g.:
+- if you want to use a smaller model to save processing power and (V)RAM you can use `distilbert-base-german-cased`
+- if you want to get higher score but having higher (V)RAM usage you can use one of these:
+    - `xlm-roberta-base`
+    - `xlm-roberta-large` (it's better to have at least 16 GB VRAM for training, depending on settings and text size)
 
 ### Deploy after training
 #### Local deployment without Docker
