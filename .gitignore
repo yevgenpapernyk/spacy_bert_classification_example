@@ -134,4 +134,5 @@ corpus/
 models/
 temp/
 project.lock
+docker-compose.override.yml
 
