@@ -20,7 +20,8 @@ app = FastAPI(
 
 # gpu
 logger.info('Checking GPU')
-if spacy.prefer_gpu():
+is_gpu_in_use = spacy.prefer_gpu()
+if is_gpu_in_use:
     logger.info('-> Using GPU')
 else:
     logger.warning('-> GPU ist not used!')
@@ -34,6 +35,16 @@ try:
 except OSError:
     logger.error('Could not load model!')
     exit(1)
+
+
+@app.get("/")
+async def info():
+    """Provide some basic information"""
+    return {
+       'name': app.title,
+       'version': app.version,
+       'is_gpu_in_use': is_gpu_in_use,
+    }
 
 
 @app.get('/classify-text/')
