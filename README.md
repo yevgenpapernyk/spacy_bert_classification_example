@@ -12,6 +12,7 @@ The project was created and tested on "Ubuntu Server 22.04.2 LTS". Other operati
 additionally:
 1. NVIDIA GPU with >= 6 GB of VRAM (ideally >=12 GB)
 1. Installed NVIDIA GPU driver
+1. Installed NVIDIA cuDNN (https://developer.nvidia.com/cudnn)
 
 ### Using GPU with Docker
 Attention: 
