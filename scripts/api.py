@@ -49,9 +49,6 @@ async def info():
 
 @app.get('/classify-text/')
 async def classify_text(text: str):
-    # clean text
-    # TODO: clean text?
-
     # get predictions and sort by score descending
     doc = model(text)
     predictions = sorted(doc.cats.items(), key=lambda x: x[1], reverse=True)
