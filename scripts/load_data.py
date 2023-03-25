@@ -2,7 +2,6 @@ from pathlib import Path
 
 import spacy
 from datasets import load_dataset
-from sklearn.model_selection import train_test_split
 
 
 class DataLoader:
